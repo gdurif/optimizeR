@@ -10,7 +10,7 @@ BenchOpt is used through a command line as documented in Command Line Interface 
 
 See the [dedicated file](./requirements.md).
 
-## Presenation
+## Presentation
 
 See the [dedicated directory](./presentation).
 
