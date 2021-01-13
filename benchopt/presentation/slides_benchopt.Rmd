@@ -1,0 +1,233 @@
+---
+author: Ghislain DURIF (adapted from J. Salmon slides)
+title: benchopt
+subtitle: Benchmarking optimization algorithms
+institute: IMAG -- CNRS
+date: January 22nd, 2021
+output: 
+    binb::metropolis:
+        includes:
+            in_header: ../../tex/custom.sty
+classoption: "aspectratio=169"
+beameroption: "show notes"
+toc: false
+---
+
+```{r,setup, include=FALSE}
+knitr::opts_chunk$set(cache=TRUE)
+knitr::opts_chunk$set(message = FALSE)
+```
+
+## Credits
+
+\begin{center}
+    \begin{tabular}{ccccc}
+    \includegraphics[width=0.15\textwidth]{images/agramfort} &
+    \includegraphics[width=0.15\textwidth]{images/jsalmon} &
+    \includegraphics[width=0.15\textwidth]{images/mmassias} &
+    \includegraphics[width=0.15\textwidth]{images/tomdlt} &
+    \includegraphics[width=0.15\textwidth]{images/tommoral}
+    \\
+    A. Gramfort &
+    J. Salmon &
+    M. Massias &
+    T. Dupré la Tour &
+    T. Moreau (the boss)
+    \\
+    Inria Parietal &
+    Univ. Montpellier &
+    Univ. of Genova &
+    UC Berkeley &
+    Inria Parietal
+    \end{tabular}
+\end{center}
+
+## Benchmarking algorithms in practice
+
+\textbf{Purpose:} choosing the best algorithm to solve an optimization problem (especially related to a statistical or machine learning application) \medskip
+
+\albf{Issues:} numerous conditions and configurations including
+
+\begin{itemize}
+	\item The \textbf{properties}, \textbf{scale}, \textbf{conditionning} and \textbf{generation process} of the data
+	\item The \textbf{parameters} and \textbf{regularisation} of the objective
+	\item The \textbf{efficiency}, \textbf{complexity} and \textbf{language} of the implementation
+\end{itemize}\medskip
+
+\albf{Solution}: an impartial selection or comparison requires \albf{a time consuming benchmark}!
+
+## \texttt{benchopt}
+
+* Complete and versatile tool to \albf{quickly} and \albf{efficiently} design \albf{benchmarks} to \albf{impartially} and \albf{fairly} compare algorithms solving an optimization problem \bigskip
+
+* Useful for \textbf{software design}, \textbf{publication writing}, \textbf{publication review}, etc. \bigskip\bigskip
+
+\begin{center}
+\Large See \url{https://benchopt.github.io/}
+\end{center}
+
+## Using \texttt{benchopt} to run a benchmark
+
+* Example benchmark for the $\ell_2$ regularized logistic regression problem with multiple solvers and datasets \bigskip
+
+Commands to get the default benchmark and run it:
+```bash
+git clone https://github.com/benchopt/benchmark_logreg_l2
+benchopt run ./benchmark_logreg_l2
+```
+\bigskip
+
+* \texttt{benchopt} runs (with repetitions) each selected solver on each selected dataset with each selected parameter value, and generates a csv result file and convergence plots (c.f. next slide).
+
+## Results^[Examples of standard benchmark results at https://benchopt.github.io/results/]
+
+\begin{itemize}
+\item $F$ = objective function
+\item $F(x^*)$ = optimum
+\item $F(x) - F(x^*)$ = gap between current value (across iterations) and optimum
+\end{itemize}
+
+\begin{center}
+    \includegraphics[width=.46\textwidth]{images/logreg_l2} \hfill
+    \includegraphics[width=.46\textwidth]{images/logreg_l2_1}
+\end{center}
+
+## Cross-language comparison
+
+\texttt{benchopt} can also compare implementations in \albf{different languages}.
+
+Example comparing Proximal Gradient Descent (PGD) in Python, R, Julia
+
+\begin{center}
+    \includegraphics[width=.55\textwidth]{images/lasso_3_languages}
+\end{center}
+
+
+## Available benchmarks
+
+Data : $y \in \mathbb{R}^n$, $X = [x_{ij}] \in \mathbb{R}^{n \times p}$ with rows $x_i \in \mathbb{R}^p$
+
+* ordinary least-squares (ols^[https://github.com/benchopt/benchmark_ols]) \hfill $\min_w \frac{1}{2} \Vert y - Xw\Vert_2^{\,2}$
+
+* non-negative least-squares (nnls^[https://github.com/benchopt/benchmark_nnls]) \hfill $\min_{w \geq 0} \frac{1}{2} \Vert y - Xw\Vert_2^{\,2}$
+
+* l1-regularized least-squares (lasso^[https://github.com/benchopt/benchmark_lasso]) \hfill $\min_w \frac{1}{2} \Vert y - Xw\Vert_2^{\,2} + \lambda \Vert w\Vert_1$
+
+* l2-regularized logistic regression (logreg_l2^[https://github.com/benchopt/benchmark_logreg_l2]) \hfill $\min_w \sum_i \log(1 + \exp(-y_i x_i^\top w)) + \frac{\lambda}{2} \Vert w\Vert_2^{\,2}$
+
+* l1-regularized logistic regression (logreg_l1^[https://github.com/benchopt/benchmark_logreg_l1]) \hfill $\min_w \sum_i \log(1 + \exp(-y_i x_i^\top w)) + \lambda \Vert w\Vert_1$
+
+## Benchmark principle
+
+A benchmark is a directory with:
+\begin{itemize}
+    \item An \texttt{objective.py} file implementing an \texttt{Objective}
+    \item A directory \texttt{solvers} containing different \texttt{Solver} implementation
+    \item A directory \texttt{datasets} with \texttt{Dataset} generators/fetchers
+\end{itemize}\medskip
+
+\albf{Note:} each objects above can be parametrized. \medskip
+
+Possible to select the \texttt{objective/solver/dataset} you want to run.
+
+## Benchmark structure
+
+```
+my_benchmark/
+├── README.rst
+├── datasets
+│   ├── simulated.py  # some dataset
+│   └── real.py  # some dataset
+├── objective.py  # contains the definition of the objective
+└── solvers
+    ├── solver1.py  # some solver
+    └── solver2.py  # some solver
+```
+
+## \texttt{benchopt} implementation
+
+* `benchopt` \albf{core} is written in Python \bigskip
+
+* \albf{Command Line Interface} (CLI) to run benchmarks \bigskip
+
+* Python API to \albf{write benchmarks} and \albf{add solvers} (simple interface to call solvers implemented in other languages) \bigskip
+
+* Solver dependencies (both in Python and R) managed with \albf{conda}^[See https://docs.conda.io/projects/conda/en/latest/user-guide/install/].
+
+## \texttt{benchopt} command
+
+\scriptsize
+```bash
+$ benchopt -h
+Usage: benchopt [OPTIONS] COMMAND [ARGS]...
+
+  Command-line interface to benchOpt
+
+Options:
+  -v, --version  Print version
+  -h, --help     Show this message and exit.
+
+Commands:
+  clean    Clean the cache and the outputs from a benchmark.
+  config   Configuration helper for benchopt.
+  plot     Plot the result from a previously run benchmark.
+  publish  Publish the result from a previously run benchmark.
+  run      Run a benchmark with benchopt.
+  test     Test a benchmark for benchopt.
+```
+\normalsize
+
+## Adding a solver to an existing benchmark
+
+* Example of a \albf{standard} solver (implemented in Python) in [`benchmark_lasso/solvers/python_pgd.py`](https://github.com/benchopt/benchmark_lasso/blob/master/solvers/python_pgd.py) \bigskip
+
+* Example of a solver \albf{implemented in an R package} (with a simple interface in Python) in [`benchmark_lasso/solvers/glmnet.py`](https://github.com/benchopt/benchmark_lasso/blob/master/solvers/glmnet.py) \bigskip
+
+* Example of a solver \albf{implemented in a local R file} in [`benchmark_lasso/solvers/r_pgd.R`](https://github.com/benchopt/benchmark_lasso/blob/master/solvers/r_pgd.R) with its interface in Python in [`benchmark_lasso/solvers/r_pgd.R`](https://github.com/benchopt/benchmark_lasso/blob/master/solvers/r_pgd.py)
+
+
+## Writing a complete benchmark
+
+\albf{Procedure detailed} at https://benchopt.github.io/how.html \medskip
+
+1. Implement an \albf{objective} corresponding to an optimization problem in the file `my_benchmark/objective.py`^[Example for Lasso in [`benchmark_lasso/objective.py`](https://github.com/benchopt/benchmark_lasso/blob/master/objective.py)] \medskip
+
+2. Implement \albf{dataset simulator(s)} and/or \albf{existing dataset fetcher(s)} in the directory `my_benchmark/datasets`^[Examples for Lasso in [`benchmark_lasso/datasets`](https://github.com/benchopt/benchmark_lasso/tree/master/datasets)] \medskip
+
+3. Implement \albf{solver(s)} (with local implementation or by importing existing libraries) in the directory `my_benchmark/solvers`^[Examples for Lasso in [`benchmark_lasso/solvers`](https://github.com/benchopt/benchmark_lasso/tree/master/solvers)] \medskip
+
+## Managing the Python interface
+
+!!! Adding solvers to benchmarks or writing complete benchmarks requires some knowledge of Python programming and object-oriented programming !!! \medskip
+
+* Recommended to use an existing solver file or benchmark directory to create your own \medskip
+
+* Example of \texttt{glmnet} solver in [benchmark_lasso/solvers/glmnet.py](https://github.com/benchopt/benchmark_lasso/blob/master/solvers/glmnet.py)
+
+## Resources
+
+* Website: https://benchopt.github.io/
+
+\begin{center}
+    \includegraphics[width=.6\textwidth]{images/website}
+\end{center}
+
+* Development platform: https://github.com/benchopt/benchOpt \medskip
+
+* Default benchmarks available at https://github.com/benchopt
+
+## {.plain}
+
+\begin{center}
+    \includegraphics[height=0.9\paperheight]{images/wanted}
+\end{center}
+
+
+## {.standout}
+
+\begin{center}
+\Large
+Thanks for your attention \bigskip
+
+Questions ?
+\end{center}
