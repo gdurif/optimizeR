@@ -1,0 +1,3 @@
+[submodule "benchopt/tutorial/benchOpt"]
+	path = benchopt/tutorial/benchOpt
+	url = https://github.com/benchopt/benchOpt
