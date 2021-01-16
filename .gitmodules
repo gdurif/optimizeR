@@ -1,3 +1,18 @@
 [submodule "benchopt/tutorial/benchOpt"]
 	path = benchopt/tutorial/benchOpt
 	url = https://github.com/benchopt/benchOpt
+[submodule "benchopt/tutorial/benchmark_ols"]
+	path = benchopt/tutorial/benchmark_ols
+	url = https://github.com/benchopt/benchmark_ols
+[submodule "benchopt/tutorial/benchmark_lasso"]
+	path = benchopt/tutorial/benchmark_lasso
+	url = https://github.com/benchopt/benchmark_lasso
+[submodule "benchopt/tutorial/benchmark_nnls"]
+	path = benchopt/tutorial/benchmark_nnls
+	url = https://github.com/benchopt/benchmark_nnls
+[submodule "benchopt/tutorial/benchmark_logreg_l2"]
+	path = benchopt/tutorial/benchmark_logreg_l2
+	url = https://github.com/benchopt/benchmark_logreg_l2
+[submodule "benchopt/tutorial/benchmark_logreg_l1"]
+	path = benchopt/tutorial/benchmark_logreg_l1
+	url = https://github.com/benchopt/benchmark_logreg_l1
