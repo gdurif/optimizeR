@@ -20,6 +20,8 @@
 
 - To avoid messing with your system, it is convenient (but optional) to install `BenchOpt` inside a Python virtual environment or inside a Conda environment (it you are using Anaconda). See below for a short guide regarding [Python virtual environment](#using-python-virtual-environment) or [Conda environment](#using-conda-environment).
 
+**Important**: We recommend to use a dedicated Conda environment to install and run `BenchOpt` because it is still in active development and thus it can be subject to bugs and to frequent modifications/changes.
+
 ---
 
 ## Installing BenchOpt
