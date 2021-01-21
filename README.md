@@ -38,14 +38,15 @@ Presentation and tutorial related files can be found in the corresponding sub-di
 
 ## Requirements for the presentation visualization
 
-To visualize the presentation and the tutorial supports, you need the folloing `R` packages 
+To visualize the presentation and the tutorial supports, you need the following `R` packages:
+- `ggplot2`
 - `knitr`
 - `rmarkdown`
 - `binb`
 
 You can install these dependencies with the following `R` commands:
 ```R
-pkg_list <- c("knitr", "rmarkdown", "binb")
+pkg_list <- c("ggplot2", "knitr", "rmarkdown", "binb")
 install.packages(pkg_list)
 ```
 
