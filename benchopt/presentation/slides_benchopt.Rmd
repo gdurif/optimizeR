@@ -7,7 +7,7 @@ date: January 22nd, 2021
 output: 
     binb::metropolis:
         includes:
-            in_header: ../../tex/custom.sty
+            in_header: ../../.tex/custom.sty
 classoption: "aspectratio=169"
 beameroption: "show notes"
 toc: false
