@@ -1,0 +1,40 @@
+---
+title: "SPAMS tutorial"
+author: "Ghislain DURIF"
+date: "January 22nd, 2021"
+institute: IMAG -- CNRS
+subtitle: Tutorial
+---
+
+```{r setup, include=FALSE}
+knitr::opts_chunk$set(cache=TRUE)
+knitr::opts_chunk$set(message = FALSE)
+```
+
+# Installation and requirements
+
+See the [dedicated file](../requirements.md).
+
+# Examples and tutorials
+
+See the dedicated webpage for [tutorials](https://www.kernel-operations.io/keops/_auto_tutorials/index.html) and - [examples](https://www.kernel-operations.io/keops/_auto_examples/index.html) on the official websites (in Python but can be extended to R). It includes examples of $K$-means or $K$-nearest neighbors algorithm implementation with KeOps.
+
+# Comparing R and RKeOps
+
+## Gaussian convolution
+
+We will try to compare the implementation of a convolution with a Gaussian kernel in native R and with RKeOps.
+
+Here is the operator that we want to implement:
+
+$$\sum_{j=1}^{N} \exp\Big(-s || \mathbf x_i - \mathbf y_j ||_2^{\,2}\Big)\,\mathbf b_j$$
+with
+
+* parameter: $s\in\mathbb R$
+
+* $i$-indexed variables $\mathbf X = [\mathbf x_i]_{i=1,...,M} \in\mathbb R^{M\times 3}$
+
+* $j$-indexed variables $\mathbf Y = [\mathbf y_j]_{j=1,...,N} \in\mathbb R^{N\times 3}$ and $\mathbf B = [\mathbf b_j]_{j=1,...,N} \in\mathbb R^{N\times 6}$
+
+**Exercise**: Try to implement the previous operator in native R and with RKeOps. Compare computation performances.
+**Solution**: see the file [`./benchmarks/Gaussian.R`](./benchmarks/Gaussian.R).
