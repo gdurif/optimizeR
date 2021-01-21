@@ -54,3 +54,5 @@ install.packages(pkg_list)
 Please check the `requirements.md` files in each sub-directory (respectively [here](./benchopt/requirements.md) for `BenchOpt`, [here](./keops/requirements.md) for `KeOps` and [here](./spams/requirements.md) for `SPAMS`) for the installation requirements to use each library.
 
 Please see this [file](./setup_R_environment.md) if you prefer to **avoid messing with your R environment** when installing the packages required for the tutorials.
+
+> **Note concerning the OS**: all codes and commands presented in this repository are specific to a Linux environment (and have only been tested on such system). Most of them should work in a MacOS environment. However, if you are using Windows, it is recommended to use the Windows Subsystem for Linux (WSL, see [here](https://docs.microsoft.com/fr-fr/windows/wsl/about)) or an Unix emulator such as Cygwin (see [here](https://www.cygwin.com/)). In addition, most of the libraries presented here are not available for Windows at the moment.

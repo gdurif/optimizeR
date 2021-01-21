@@ -1,5 +1,7 @@
 # Requirements to use `BenchOpt` library
 
+> **Note concerning the OS**: all codes and commands presented here are specific to a Linux environment (and have only been tested on such system). Most of them should work in a MacOS environment.
+
 `BenchOpt` is available as a command line tool or through a Python API, and is implemented as a Python package.
 
 ## Prepare your system
