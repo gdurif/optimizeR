@@ -1,6 +1,9 @@
 #------------------------------------------------------------------------------#
 ## R related files
 
+# R lib directory
+.R_libs
+
 # History files
 .Rhistory
 .Rapp.history

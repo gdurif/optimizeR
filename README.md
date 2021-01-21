@@ -1,6 +1,6 @@
 # OptimizeR
 
-**A non exhaustive tour of optimization tools for machine learning in R**
+**A non exhaustive tour of optimization-related tools for machine learning and statistics in R**
 
 January 22nd, 2021, "State of the R" workshop (https://stateofther.github.io/)
 
@@ -10,7 +10,7 @@ Ghislain Durif (https://gdurif.perso.math.cnrs.fr/)
 
 ## Abstract
 
-The workshop will be divided into two parts. Here https://github.com/gdurif/optimizeR you can find the training materials and preliminary requirements (will be updated soon). Both parts will include a presentation and programming tutorials.
+The workshop will be divided into two parts. Here https://github.com/gdurif/optimizeR you can find the materials and preliminary requirements (will be updated soon). Both parts will include a presentation and programming tutorials.
 
 The first part will focus on efficiently solving standard statistics or machine learning related optimization problems in R. We will talk about several R packages, in particular the following estimation and benchmark libraries:
 
@@ -36,6 +36,20 @@ Presentation and tutorial related files can be found in the corresponding sub-di
 - [`./keops`](./keops) for `KeOps`
 - [`./spams`](./spams) for `SPAMS`
 
+## Requirements for the presentation visualization
+
+To visualize the presentation and the tutorial supports, you need the folloing `R` packages 
+- `knitr`
+- `rmarkdown`
+
+You can install these dependencies with the following `R` commands:
+```R
+pkg_list <- c("knitr", "rmarkdown")
+install.packages(pkg_list)
+```
+
 ## Requirements for the tutorials
 
 Please check the `requirements.md` files in each sub-directory (respectively [here](./benchopt/requirements.md) for `BenchOpt`, [here](./keops/requirements.md) for `KeOps` and [here](./spams/requirements.md) for `SPAMS`) for the installation requirements to use each library.
+
+Please see this [file](./setup_R_environment.md) if you prefer to **avoid messing with your R environment** when installing the packages required for the tutorials.
