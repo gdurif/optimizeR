@@ -1,0 +1,235 @@
+%%%%%%%%%% package and personal commands used for redaction %%%%%%%%%%%%
+
+
+%% doc specifications and language
+%\usepackage[utf8]{inputenc} % Encodage des caractères du fichier source
+%\usepackage[T1]{fontenc} % Encodage des caractères en sortie
+%\usepackage{textcomp} % Jeu de symboles complémentaires
+%\usepackage[english]{babel} % Support de la langue française
+%\usepackage[autolanguage]{numprint} % Formatage des nombres
+
+%%% margin
+\setbeamersize{text margin left=0.8cm,text margin right=0.8cm}
+
+%% references
+\usepackage{natbib}
+
+%% maths
+\usepackage{amsmath,amssymb,amsthm} % Toutes ces extensions proviennent de la classe AMS-LaTeX
+\usepackage{mathrsfs} % Pour les polices particulières en mode math (lettre ronde...) : \mathscr ou \mathcal pour les lettres rondes, \mathfrak pour les lettres gothiques
+\usepackage{array} % Pour générer des tableaux
+\usepackage{multirow}
+
+%% lists
+\usepackage{enumerate} % Pour générer des listes
+
+
+%% color
+\usepackage{color}
+\usepackage{colortbl}
+%\definecolor{grey}{rgb}{0.95,0.95,0.95}
+%\definecolor{white}{rgb}{1,1,1}
+%\definecolor{grey}{rgb}{0.5,0.5,0.5}
+%\definecolor{mygrey}{rgb}{0.9,0.9,0.9}
+%\definecolor{mygrey2}{rgb}{0.95,0.95,0.95}
+%\definecolor{mygreen}{rgb}{0.2,0.4,0.2}
+%\definecolor{purple}{rgb}{0.6,0.19,0.01}
+%\definecolor{citecolor}{rgb}{0.2,0.45,0.2}
+%\definecolor{linkcolor}{rgb}{0.2,0.2,0.5}
+%
+%\definecolor{darkgreen}{rgb}{0.2,0.4,0.2}
+%\definecolor{lightgreen}{rgb}{0.8,0.9,0.8}
+%
+%\definecolor{darkblue}{rgb}{0.25,0.2,0.7}
+%\definecolor{lightblue}{rgb}{0.8,0.8,0.9}
+%
+%\definecolor{darkred}{rgb}{0.7,0.2,0.2}
+%\definecolor{lightred}{rgb}{0.9,0.8,0.8}
+%
+%\definecolor{darkorange}{rgb}{0.5,0.4,0.3}
+%\definecolor{lightorange}{rgb}{0.9,0.8,0.7}
+%
+%\definecolor{darkgrey}{rgb}{0.3,0.3,0.3}
+\definecolor{lightgrey}{rgb}{0.85,0.85,0.85}
+\newcommand\cl[1]{\cellcolor{lightgrey}{#1}}
+%
+%
+%
+%\definecolor{foreground}{RGB}{255,255,255}
+%\definecolor{background}{RGB}{24,24,24}
+%\definecolor{title}{RGB}{107,174,214}
+%\definecolor{gray}{RGB}{155,155,155}
+%\definecolor{subtitle}{RGB}{102,255,204}
+%\definecolor{hilight}{RGB}{102,255,204}
+%\definecolor{vhilight}{RGB}{255,111,207}
+%\colorlet{DarkRed}{red!75!black}
+
+%% figures, caption, url, hyperlinks
+\usepackage{graphicx} % permet l'insertion d'images
+
+\usepackage{import} % to import svg
+\usepackage{verbatim} % définit des environnements de texte préformaté et de commentaires
+\usepackage{caption} % to reduce caption size
+\captionsetup[figure]{labelformat=empty,font=scriptsize}
+\captionsetup[table]{labelformat=empty,font=scriptsize}
+\usepackage{url}
+\usepackage{hyperref} % génère des liens hypertextes dans les fichiers pdf
+
+\usepackage{cancel}
+
+\usepackage{tikz}
+\usepackage{varwidth}
+\usetikzlibrary{arrows.meta}
+\usetikzlibrary{fit}
+\usetikzlibrary{positioning}
+\usetikzlibrary{calc,fadings,decorations.pathmorphing,decorations.pathreplacing,matrix,arrows,decorations.text,positioning,decorations.markings}
+%\tikzexternalize[prefix=./output_latex/]
+%\tikzexternaldisable
+
+
+\def\annotateSign#1{
+\tikz[overlay]
+  \draw[mLightBrown,-latex,line width=2pt, shorten >=8pt, shorten <=2pt] (-1.5ex,1.5ex) -- +(0,3.2) node[black] {#1};
+}
+
+\def\annotateEquality#1{
+\tikz[overlay]
+  \node at (-2.5, 0) {#1};
+}
+
+
+\usepackage{minted}
+
+
+
+%% commands
+\renewcommand\epsilon\varepsilon % Graphie du symbole "epsilon".
+%\renewcommand\phi\varphi % Graphie du symbole "phi".
+\renewcommand\tilde\widetilde % larger tilde
+\renewcommand\hat\widehat % larger hat
+\renewcommand\vec\overrightarrow
+\newcommand\mybar\overline
+
+%\definecolor{mLightBrown}{HTML}{EB811B}
+%\definecolor{mLightGreen}{HTML}{14B03D}
+
+\newcommand\y{\cellcolor{mLightGreen}}
+
+
+\newcommand{\btimes}{\mathbin{\protect\rotatebox[origin=c]{45}{\scriptsize$\boxtimes$}}}
+\newcommand{\diam}{\mathbin{\protect\rotatebox[origin=c]{45}{\tiny$\blacksquare$}}}
+
+\newcommand{\careful}{$/!\backslash$}
+
+\newcommand{\myexample}[1]{{\usebeamercolor[fg]{example text} #1}}
+\newcommand{\setitsep}[1]{\setlength\itemsep{#1}}
+
+% custom block
+\newenvironment{variableblock}[3]{%
+  \setbeamercolor{block body}{#2}
+  \setbeamercolor{block title}{#3}
+  \begin{block}{#1}}{\end{block}}
+% use:
+%\begin{variableblock}{Title}{bg=blue,fg=white}{bg=green,fg=red}
+%  Stuff
+%\end{variableblock}
+
+%% symbol in math mode
+\newcommand\NN{\mathbb{N}} 
+\newcommand\ZZ{\mathbb{Z}}
+\newcommand\QQ{\mathbb{Q}} 
+\newcommand\RR{\mathbb{R}}
+\newcommand\CC{\mathbb{C}}
+\newcommand\EE{\mathbb{E}}
+\newcommand\HH{\mathbb{H}}
+\newcommand\II{\mathbf{1}}
+\newcommand\gts[1]{\og#1\fg} 
+\newcommand\ab\allowbreak 
+\newcommand{\deriv}{\mathrm{d}}
+\renewcommand{\arraystretch}{1.5}
+\newcommand\PP{\mathbb{P}}
+\newcommand{\tr}[1]{\ensuremath{#1^{T}}} % transposed notation
+\newcommand{\trr}[1]{\ensuremath{#1^{\, T}}}
+\newcommand{\mb}[1]{\ensuremath{\mathbf{#1}}} % bold letter in math
+\newcommand{\mbg}[1]{\ensuremath{\boldsymbol{#1}}} % bold symbol in math
+\newcommand\argmax{\text{argmax}}
+\newcommand\argmin{\text{argmin}}
+\newcommand\Var{\text{Var}}
+\newcommand\Cov{\text{Cov}}
+\newcommand\Corr{\text{Corr}}
+\newcommand\like{\mathcal{L}}
+\newcommand\Poi{\mathscr{P}}
+\newcommand\gauss{\mathcal{N}}
+\newcommand\Gam{\Gamma}
+\newcommand\multin{\mathcal{M}}
+\newcommand\NB{\mathcal{NB}}
+\newcommand\bern{\mathcal{B}}
+\newcommand\msum{{\textstyle\sum}}
+\newcommand\mprod{{\textstyle\prod}}
+\newcommand\id{\text{Id}}
+\newcommand\rank{\text{rank}}
+\newcommand\prox{\text{Prox}}
+\newcommand\sgn{\text{sgn}}
+\newcommand\KL{\text{KL}}
+\newcommand\msc{\scriptsize}
+\newcommand\cond{\text{---}}
+\newcommand\logit{\text{logit}}
+\newcommand\rw{\rightarrow}
+\newcommand\vertt{\big\vert}
+\newcommand\Vertt{\big\Vert}
+\newcommand\xx{\times}
+
+\newcommand\bd{\boxdot}
+\newcommand\uptri{\bigtriangleup}
+
+\newcommand{\Conv}{\mathop{\scalebox{3.5}{\raisebox{-0.2ex}{$\ast$}}}}
+\newcommand{\abold}{\boldsymbol{a}}
+\newcommand{\bbold}{\boldsymbol{b}}
+
+\newcommand{\mybf}[1]{\textbf{\alert{#1}}}
+
+\newcommand{\btVFill}{\vskip0pt plus 1filll}
+
+
+%% dummy images
+\newcommand{\dummy}{figures/dummy}
+
+%% comments
+\newcommand{\com}[1]{\textcolor{red}{#1}}
+\newcommand{\noref}{\com{(Ref?)}}
+
+%% bibtex directory
+\newcommand{\myreferences}{/home/thoth/gdurif/biblio/biblioZotero}
+
+%% center title page
+\makeatletter
+\setbeamertemplate{title page}{
+  \begin{minipage}[b][\paperheight]{\textwidth}
+    \centering  % <-- Center here
+    \ifx\inserttitlegraphic\@empty\else\usebeamertemplate*{title graphic}\fi
+    \vfill%
+    \ifx\inserttitle\@empty\else\usebeamertemplate*{title}\fi
+    \ifx\insertsubtitle\@empty\else\usebeamertemplate*{subtitle}\fi
+    \usebeamertemplate*{title separator}
+    \ifx\beamer@shortauthor\@empty\else\usebeamertemplate*{author}\fi
+    \ifx\insertdate\@empty\else\usebeamertemplate*{date}\fi
+    \ifx\insertinstitute\@empty\else\usebeamertemplate*{institute}\fi
+    \vfill
+    \vspace*{1mm}
+  \end{minipage}
+}
+
+\setbeamertemplate{title}{
+%  \raggedright%  % <-- Comment here
+  \linespread{1.0}%
+  \inserttitle%
+  \par%
+  \vspace*{0.5em}
+}
+\setbeamertemplate{subtitle}{
+%  \raggedright%  % <-- Comment here
+  \insertsubtitle%
+  \par%
+  \vspace*{0.5em}
+}
+\makeatother
