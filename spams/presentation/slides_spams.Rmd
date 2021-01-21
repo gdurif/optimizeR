@@ -1,0 +1,364 @@
+---
+author: Ghislain DURIF
+title: SPAMS (SPArse Modeling Software)
+subtitle: Optimization toolbox for sparse estimation problem resolution
+institute: IMAG -- CNRS
+date: January 22nd, 2021
+output: 
+    binb::metropolis:
+        includes:
+            in_header: ../../.tex/custom.sty
+classoption: "aspectratio=169"
+beameroption: "show notes"
+toc: false
+---
+
+```{r,setup, include=FALSE}
+knitr::opts_chunk$set(cache=TRUE)
+knitr::opts_chunk$set(message = FALSE)
+```
+
+```{r,requirment, include=FALSE}
+library(ggplot2)
+```
+
+# Introduction
+
+## Credits
+
+* **Main development**: Julien Mairal (Inria) \bigskip
+
+* Contributions: Francis Bach (Inria), Jean Ponce (Ecole Normale Supérieure), Guillermo Sapiro (University of Minnesota), Guillaume Obozinski (Inria) and Rodolphe Jenatton (Inria), Yuansi Chen (Inria), Zaid Harchaoui (Inria) \bigskip
+
+* R and Python interfaces: Jean-Paul Chieze (Inria) \bigskip
+
+* Development and maintenance of **version >=2.6** (especially porting to R-3.x and Python-3.x): Ghislain Durif
+
+## What is SPAMS
+
+\albf{SPAMS = SPArse Modeling Software} \medskip
+
+- An open-source **optimization** toolbox for **sparse estimation** \medskip
+
+- Implementation of algorithms to solve machine learning and signal processing problems involving **sparse regularizations** \medskip
+
+\begin{center}
+\Large
+\url{http://spams-devel.gforge.inria.fr/}
+\end{center}
+
+## Status
+
+- \albf{Not} in active development anymore \bigskip
+
+- Only **light maintenance** \bigskip
+
+- \albf{Widely used} (**10000+ downloads** per year since 2012), even today \bigskip
+
+- Modern replacement : see Cyanure^[http://thoth.inrialpes.fr/people/mairal/cyanure/welcome.html] (Python only for the moment)
+
+## Technical specs
+
+- Implemented in a C++ library (usable in C++ projects) \medskip
+
+- Compatible with Linux, Mac (no Windows support in the latest version) \medskip
+
+- Interfaced with Matlab^[historical interface], \albf{R} and Python (both automatically generated from the Matlab interface with SWIG^[http://swig.org/]) \medskip
+
+- Python interface is now "autonomous" with a dedicated repository^[https://gitlab.inria.fr/thoth/python-spams] \medskip
+
+- Based on efficient linear algebra libray and multi-threading through OpenMP.
+
+## Development
+ 
+- \albf{Main project} at https://gitlab.inria.fr/thoth/spams-devel (version>=2.6) \bigskip
+ 
+- \albf{Python interface} at https://gitlab.inria.fr/thoth/python-spams (version>=2.6.1) \bigskip
+ 
+- **Legacy project** at https://gforge.inria.fr/projects/spams-devel (2.2<=version<=2.5)
+
+## Requirements
+
+- An implementation of BLAS and LAPACK to perform \albf{linear algebra operations}. \medskip
+
+Possible to use 
+
+- BLAS and LAPACK library shipped with R
+- external libraries such as atlas, OpenBlas, or the Intel Math Kernel Library (MKL^[https://en.wikipedia.org/wiki/Math_Kernel_Library]) \smallskip
+
+**Note**: the MKL is recommended to get the best performance and is available (even for R^[https://docs.anaconda.com/anaconda/user-guide/tasks/using-r-language/]) with the Anaconda Python distribution^[https://docs.anaconda.com/anaconda/install/]
+
+## Content
+
+**Various toolboxes**
+
+- Dictionary learning and matrix factorization \smallskip
+
+- Sparse decomposition \smallskip
+
+- Proximal methods \medskip
+
+\+ **various functions** to perform linear algebra operations such as a conjugate gradient algorithm, manipulating sparse matrices and graphs
+
+## Documentation
+
+Available for each interface (R^[R documentation at http://spams-devel.gforge.inria.fr/doc-R/html/index.html], Matlab and Python) at http://spams-devel.gforge.inria.fr/documentation.html \medskip
+
+\begin{columns}
+\begin{column}{0.5\textwidth}
+\begin{center}
+\large
+\textit{old school} but \albf{complete}
+\end{center}
+\end{column}
+\begin{column}{0.5\textwidth}
+\begin{center}
+\includegraphics[width=0.5\textwidth]{images/online_doc}
+\end{center}
+\end{column}
+\end{columns}
+
+## Availability and installation
+
+- SPAMS is \albf{not} available on CRAN. \bigskip
+
+- The latest version of SPAMS is currently \albf{not} available for Windows. \bigskip
+
+- Should be **installed from source**, R package available at the official website^[http://spams-devel.gforge.inria.fr/downloads.html]
+
+
+# Short introduction about optimization
+
+## Optimization problem
+
+- Given a function $F: \RR^p \to \RR$ called the **objective** \bigskip
+
+- Aim at finding the point $\mb x^*\in\RR^p$ such that $F(\mb x^*)$ is **optimal** \bigskip
+
+- Generally **maximizing** or **minimizing** the objective $F$ \bigskip
+
+- **Complexity** of the optimization depends on the **characteristics** and **regularity** of $F$ \bigskip
+
+- **Different algorithms** depending on the **complexity** of the problem
+
+## Optimum and optimal argument
+
+- $\mb x^*\in\RR^p$ is an **argmin** and $F(\mb x^*) \in\RR$ a **min** if $F(\mb x^*) \leq F(\mb x)$ for any $\mb x\in\RR^p$
+\[
+\mb x^* = \underset{\mb x\in\RR^p}{\argmin}\ F(\mb x)
+\]\medskip
+
+- $\mb x^*\in\RR^p$ is an **armax** and $F(\mb x^*) \in\RR$ a **max** if $F(\mb x^*) \geq F(\mb x)$ for any $\mb x\in\RR^p$ 
+\[
+\mb x^* = \underset{\mb x\in\RR^p}{\argmax}\ F(\mb x)
+\]\medskip
+
+- **local optimum** if optimum on a **bounded region** of $\RR^p$
+
+## Minimization and maximization
+
+\[
+\LARGE \underset{\mb x\in\RR^p}{\argmax}\ F(\mb x) = \underset{\mb x\in\RR^p}{\argmin}\ - F(\mb x)
+\]
+
+
+## Illustration: max and argmax
+
+```{r max_argmax, echo=FALSE, results='hide', message=FALSE, warning=FALSE, fig.height = 2.5, fig.width = 5, fig.align="center"}
+quad <- function(x) return((3-x) * (x+4))
+x_max <- -1/2
+y_max <- quad(x_max)
+ggplot(data.frame(x = c(-4, 3)), aes(x)) +
+  stat_function(fun = quad) + 
+  theme_bw() +
+  ylab("f(x)") + 
+  ylim(c(-1, y_max+4)) +
+  geom_segment(x = x_max, y = 0, 
+               xend = x_max, yend = y_max, 
+               colour = "blue", linetype=2) + 
+  geom_segment(x = -4, y = y_max, 
+               xend = x_max, yend = y_max, 
+               colour = "blue", linetype=2) + 
+  annotate("text", label = "(argmax,max)", 
+           x = x_max, y = y_max+2, 
+           size = 4, colour = "blue") + 
+  annotate("point", x = x_max, y = y_max, 
+           size = 4, colour = "blue")
+```
+
+## Illustration: local optimum
+
+```{r local_optim, echo=FALSE, results='hide', message=FALSE, warning=FALSE, fig.height = 2.5, fig.width = 5, fig.align="center"}
+obj <- function(x) return(x * sin(0.5*x + 1))
+ggplot(data.frame(x = c(-10, 10)), aes(x)) +
+    stat_function(fun = obj) + 
+    geom_rect(aes(xmin=-8, xmax=-3, ymin=-Inf, ymax=Inf), 
+              fill = "red", alpha = 0.1) +
+    geom_rect(aes(xmin=5, xmax=10, ymin=-Inf, ymax=Inf), 
+              fill = "blue", alpha = 0.1) +
+    annotate("point", x = -5.75, y = 5.35, size = 4, colour = "red") +
+    annotate("point", x = 7.9, y = -7.55, size = 4, colour = "blue") +
+    theme_bw() +
+    ylab("f(x)")
+```
+
+## Optimization problem in statistics and machine learning
+
+Many statistical or learning problem are defined thanks to an optimization problem \medskip
+
+- Regression \medskip
+
+- Classification \medskip
+
+- Dimension reduction (latent space projection, variable selection) \medskip
+
+- and more...
+
+## Unsupervised problem
+
+**Data** = collection (sample) of $n$ observations $(\mb x_i)_{i=1,\hdots,n}$ with $\mb x_i\in\RR^p$ \medskip
+
+\albf{Optimization problem}
+\[
+\Large \underset{\mb w\in\RR^p}{\argmin} \left( \sum_{i=1}^n f(\mb x_i, \mb w) \right) + \lambda\,P(\mb w)
+\]
+
+- $f : \RR^p \times \RR^p \to \RR$ is the **loss** function \medskip
+
+- $P : \RR^p \to \RR$ is the **penalty** function \medskip
+
+- $\lambda\in\RR$ is the penalization **parameter**
+
+## Supervised problem
+
+**Data** = collection (sample) of $n$ observations $(\mb x_i, y_i)_{i=1,\hdots,n}$ with $\mb x_i\in\RR^p$ and $y_i\in\RR$ \medskip
+
+\albf{Optimization problem}
+\[
+\Large \underset{\mb w\in\RR^p}{\argmin} \sum_{i=1}^n f(\mb x_i, y_i, \mb w)
+\]
+
+- $f : \RR^p \times \RR \times \RR^p \to \RR$ is the **loss** function \medskip
+
+- $P : \RR^p \to \RR$ is the **penalty** function \medskip
+
+- $\lambda\in\RR$ is the penalization **parameter**
+
+## Example of linear regression
+
+\begin{columns}
+\begin{column}{0.7\textwidth}
+\albf{Model}
+\[
+Y_i = \beta_0 + \left( \sum_{j=1}^p x_{ij}\,\beta_j \right) + \epsilon_i
+\]\medskip
+
+\albf{Optimization problem}
+\[
+(\hat{\beta}_0, \hat{\beta}_1, \hdots, \hat\beta_p) =
+\underset{(\beta_0, \beta_1, \hdots,\beta_p)\in\RR^{p+1}}{\argmin}\ \sum_{i=1}^n \left(y_i - \left(\beta_0 +\msum_{j=1}^p x_{ij}\,\beta_j \right)\right)^2
+\]
+or with matrix notation
+\[
+\hat{\mbg\beta} = \underset{\mbg\beta\in\RR^{p+1}}{\argmin}\ \big\Vert \mb y - \mb X\,\mbg\beta \big\Vert_2^{\,2}
+\]
+\end{column}
+\begin{column}{0.3\textwidth}
+\begin{center}
+\includegraphics[width=0.9\textwidth]{images/least_square}
+Source: \url{wikimedia.org}
+\end{center}
+\end{column}
+\end{columns}
+
+## Penalized logistic regression
+
+Ridge regularization ($\ell_2$ penalty)
+\[
+\hat{\mbg\beta} = \underset{\mbg\beta\in\RR^{p+1}}{\argmin}\ \big\Vert \mb y - \mb X\,\mbg\beta \big\Vert_2^{\,2} + \lambda\,\Vert \mbg\beta\Vert_2^{\,2}
+\]
+
+Lasso (sparsity-inducing $\ell_1$ penalty)
+\[
+\hat{\mbg\beta} = \underset{\mbg\beta\in\RR^{p+1}}{\argmin}\ \big\Vert \mb y - \mb X\,\mbg\beta \big\Vert_2^{\,2} + \lambda\,\Vert \mbg\beta\Vert_1
+\]
+
+
+## Optimization algorithm in general
+
+Many **different** optimization algorithms \medskip
+
+- **exact resolution** based on objective properties (very rare, e.g. least squares regression in some cases) \medskip
+
+- **iterative approximate resolution** (e.g. coordinate descent, gradient descent, etc.) \bigskip
+
+The properties (regularity, smoothness, differentiability, etc.) of the objective condition the **difficulty** of the resolution and the **possible** optimization algorithms that can be used.
+
+# SPAMS toolboxes
+
+## Explainations, illustration and code examples
+
+\begin{center}
+\Large
+Official documentation\\ \bigskip
+\url{http://spams-devel.gforge.inria.fr/doc-R/html/index.html}\\ \bigskip
+with bibliography and references
+\end{center}
+
+
+
+## Sparse dictionary learning and matrix factorization (I)
+
+- dictionary Learning for sparse coding \medskip
+sparse principal component analysis (seen as a sparse matrix factorization problem) \medskip
+- non-negative matrix factorization \medskip
+- non-negative sparse coding \medskip
+- dictionary learning with structured sparsity \medskip
+- archetypal analysis
+
+## Sparse dictionary learning and matrix factorization (II)
+
+**Data** = collection (sample) of $n$ observations $(\mb x_i)_{i=1,\hdots,n}$ with $\mb x_i\in\RR^p$ \medskip
+
+\albf{Optimization problem}
+\[
+\Large
+\underset{\mb D\in\RR^{p \times K}}{\argmin}\ \frac{1}{n} \sum_{i=1}^n \left( \underset{\mbg\alpha_i\in\RR^K}{\argmin}\ \frac{1}{2} \Vert \mb x_i - \mb D\,\mbg\alpha_i\Vert_2^{\,2} + \lambda\,P(\alpha_i)\right)
+\]
+
+Various **penalty** functions $P$ and **sub-problems** (optimization on $\mb D$ or $\mbg\alpha_i$)
+
+## Sparse decomposition
+
+Various problems and algorithms including:
+
+- Orthogonal Matching Pursuit (or Forward Selection) \medskip
+- LARS, OMP, coordinate descent algorithms \medskip
+- and more \medskip
+
+**Example of optimization problem:**
+\[
+\Large
+\underset{\mbg\alpha\in\RR^K}{\argmin}\ \frac{1}{2} \Vert \mb x - \mb D\,\mbg\alpha\Vert_2^{\,2} + \lambda\,P(\alpha)
+\]
+
+with various **penalty** functions $P$
+
+## Proximal toolbox
+
+Resolution of the following problem with \albf{proximal methods}
+\[
+\underset{\mb w\in\RR^P}{\argmin}\ f(\mb w) + \lambda\, P(\mb w)
+\]
+
+- various **loss** functions $f$ including the square loss, logistic loss, multi-class logistic loss \medskip
+
+- various **penalty** functions $P$ including $\ell_q$ norms, Elastic net, Fused Lasso, group Lasso tree structured norms, trace norm, etc.
+
+Implementing **ISTA** and **FISTA** algorithms \medskip
+
+## And more
+
+- linear algebra operations such as a conjugate gradient algorithm \bigskip\bigskip
+
+- manipulating sparse matrices and graphs
