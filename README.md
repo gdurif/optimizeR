@@ -41,10 +41,11 @@ Presentation and tutorial related files can be found in the corresponding sub-di
 To visualize the presentation and the tutorial supports, you need the folloing `R` packages 
 - `knitr`
 - `rmarkdown`
+- `binb`
 
 You can install these dependencies with the following `R` commands:
 ```R
-pkg_list <- c("knitr", "rmarkdown")
+pkg_list <- c("knitr", "rmarkdown", "binb")
 install.packages(pkg_list)
 ```
 
