@@ -31,7 +31,7 @@ To change the BLAS and LAPACK libraries used by `R`, you should first install th
 
 > **Note**: SPAMS is **not** available on CRAN
 
-1. You need to download the latest version of the source package (i.e. `spams-R-v2.6-2017-03-22.tar.gz`) from the official website [here](http://spams-devel.gforge.inria.fr/downloads.html).
+1. You need to download the latest version of the source package (i.e. `spams-R-v2.6-2017-03-22.tar.gz`) from the official [website](http://spams-devel.gforge.inria.fr/downloads.html). The direct download link is https://gforge.inria.fr/frs/download.php/file/36615/spams-R-v2.6-2017-03-22.tar.gz
 
 2. You need to extract its contents (it will produce a directory named `spams-R` and containing the package source):
 ```bash
