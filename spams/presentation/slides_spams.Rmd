@@ -148,7 +148,7 @@ Available for each interface (R^[R documentation at http://spams-devel.gforge.in
 \mb x^* = \underset{\mb x\in\RR^p}{\argmin}\ F(\mb x)
 \]\medskip
 
-- $\mb x^*\in\RR^p$ is an **armax** and $F(\mb x^*) \in\RR$ a **max** if $F(\mb x^*) \geq F(\mb x)$ for any $\mb x\in\RR^p$ 
+- $\mb x^*\in\RR^p$ is an **argmax** and $F(\mb x^*) \in\RR$ a **max** if $F(\mb x^*) \geq F(\mb x)$ for any $\mb x\in\RR^p$ 
 \[
 \mb x^* = \underset{\mb x\in\RR^p}{\argmax}\ F(\mb x)
 \]\medskip
@@ -238,7 +238,7 @@ Many statistical or learning problem are defined thanks to an optimization probl
 
 \albf{Optimization problem}
 \[
-\underset{\mb w\in\RR^p}{\argmin} \sum_{i=1}^n f(\mb x_i, y_i, \mb w)
+\underset{\mb w\in\RR^p}{\argmin} \sum_{i=1}^n f(\mb x_i, y_i, \mb w) + \lambda\,P(\mb w)
 \]
 
 - $f : \RR^p \times \RR \times \RR^p \to \RR$ is the **loss** function \medskip
@@ -274,7 +274,7 @@ Source: \url{wikimedia.org}
 \end{column}
 \end{columns}
 
-## Penalized logistic regression
+## Penalized linear regression
 
 Ridge regularization ($\ell_2$ penalty)
 \[

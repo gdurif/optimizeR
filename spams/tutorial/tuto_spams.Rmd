@@ -2,7 +2,9 @@
 title: "SPAMS tutorial"
 author: "Ghislain DURIF"
 date: "January 22nd, 2021"
-output: pdf_document
+output:
+  html_document:
+    df_print: paged
 subtitle: Tutorial
 institute: IMAG -- CNRS
 ---
@@ -33,7 +35,7 @@ install.packages("jpeg")
    - the objective is to find two matrices $U$ of dimension $n \times K$ and $V$ of dimension $p \times K$ such that $UV^t$ approximates $X$ for a given latent dimension $K$
    - the approximation between $X$ and $UV^t$ can be done for instance with the Frobenius norm:
 \[
-\Vert X - UV^t \Vert_2^{\,2} = \sum_{i=1}^n \sum_{j=1}^p \Big(x_{ij} - \sum_{k=1}^K u_{ik} v_{jk} \Big)
+\Vert X - UV^t \Vert_2^{\,2} = \sum_{i=1}^n \sum_{j=1}^p \Big(x_{ij} - \sum_{k=1}^K u_{ik} v_{jk} \Big)^2
 \]
 
 
