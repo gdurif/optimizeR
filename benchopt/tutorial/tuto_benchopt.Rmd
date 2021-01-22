@@ -1,0 +1,206 @@
+---
+title: "BenchOpt tutorial"
+author: "Ghislain DURIF"
+date: "January 22nd, 2021"
+institute: IMAG -- CNRS
+subtitle: Tutorial
+---
+
+```{r,setup, include=FALSE}
+knitr::opts_chunk$set(cache=TRUE)
+knitr::opts_chunk$set(message = FALSE)
+```
+
+# Installation and requirements
+
+See the [dedicated file](../requirements.md).
+
+In particular, it is recommended to use a dedicated Conda environment to install and run `BenchOpt` because it is still in active development and thus can be subject to bugs and to frequent modifications/changes.
+
+# Usage
+
+`BenchOpt` can be used through the command line tool `benchopt`.
+
+To get the general man page:
+```bash
+benchopt -h
+```
+
+To get the man page for a specific function:
+```bash
+benchopt run -h
+```
+
+---
+
+# OLS standard benchmark
+
+Ordinary Least Square (OLS) problem
+
+\[
+\underset{\beta\in\mathbb{R}^{p}}{argmin}\ \big\Vert y - X\,\beta \big\Vert_2^{\,2}
+\]
+
+## First example
+
+We will start by trying the OLS standard benchmark, available at https://github.com/benchopt/benchmark_ols
+
+To get it, you can either clone it from Github, or use the corresponding sub-module available in this repository.
+
+- clone from Github
+```bash
+git clone https://github.com/benchopt/benchmark_ols
+```
+- use local sub-module in this directory
+```bash
+git submodule init
+git submodule update
+```
+
+To run the benchmark:
+```bash
+benchopt run ./benchmark_ols
+```
+
+You should get the following output:
+```
+Boston
+Dataset Boston is not installed.
+Simulated[n_samples=1000,n_features=500]
+|--Ordinary Least Squares[fit_intercept=False]
+|----cd: not installed
+|----GD[use_acceleration=False]: done
+|----GD[use_acceleration=True]: done
+|----sklearn: not installed
+Simulated[n_samples=5000,n_features=200]
+|--Ordinary Least Squares[fit_intercept=False]
+|----cd: not installed
+|----GD[use_acceleration=False]: done
+|----GD[use_acceleration=True]: done
+|----sklearn: not installed
+Saving result in: benchmark_ols/outputs/benchopt_run_2021-01-13_17h15m01.csv
+Save suboptimality_curve plot for Simulated[n_samples=1000,n_features=500] and Ordinary Least Squares[fit_intercept=False] as: benchmark_ols/outputs/5659e4385a54e37c4bde2ebaaa171a4f_suboptimality_curve.pdf
+Save suboptimality_curve plot for Simulated[n_samples=5000,n_features=200] and Ordinary Least Squares[fit_intercept=False] as: benchmark_ols/outputs/29aec758b328dae183c89a051a6d43c4_suboptimality_curve.pdf
+```
+
+## Missing dependencies
+
+Some solver(s) or dataset(s) are not available. To install them locally, we should run the benchmark in its own environment:
+```bash
+benchopt run --env ./benchmark_ols
+```
+
+## Check solver and dataset requirements
+
+Solver implementations or dataset generators/fetchers may depends on some external libray/package. To check this information, you can directly get it from the corresponding files.
+
+### Dataset dependencies
+
+To find the dependencies related to a dataset, we need to look at the corresponding file in the benchmark dataset directory, e.g. [`./benchmark_ols/datasets/boston.py`](./benchmark_ols/datasets/boston.py) for the Boston dataset, and especially its requirements:
+```python
+...
+
+class Dataset(BaseDataset):
+
+    name = "Boston"
+
+    install_cmd = 'conda'
+    requirements = ['scikit-learn']
+
+    ...
+```
+
+Here we see that it requires the `scikit-learn` Python package, and that this package will be installed with `conda`.
+
+### Solver dependencies
+
+To find the dependencies related to a solver, we need to look at the corresponding file in the benchmark solver directory, e.g. [`./benchmark_ols/solvers/cd.py`](./benchmark_ols/datasets/cd.py) for the coordinate descent algorithm, and especially its requirements:
+```python
+...
+
+class Solver(BaseSolver):
+    name = "cd"
+
+    install_cmd = 'conda'
+    requirements = ['numba', 'scipy']
+    
+    ...
+```
+Here we see that it requires the `scikit-learn` Python package, and that this package will be installed with `conda`.
+
+---
+
+# Lasso standard benchmark
+
+## Presentation
+
+Lasso problem:
+\[
+\underset{\beta\in\mathbb{R}^{p}}{argmin}\ \big\Vert y - X\,\beta \big\Vert_2^{\,2} + \lambda\,\Vert \beta\Vert_1
+\]
+
+We will start by trying the Lasso standard benchmark, available at https://github.com/benchopt/benchmark_lasso
+
+To get it, you can either clone it from Github, or use the corresponding sub-module available in this repository.
+
+- clone from Github
+```bash
+git clone https://github.com/benchopt/benchmark_lasso
+```
+- use local sub-module in this directory
+```bash
+git submodule init
+git submodule update
+```
+
+To run the benchmark with default solvers on simulated datasets (may take some time):
+```bash
+benchopt run --env ./benchmark_lasso
+```
+
+To run the benchmark with all solvers on all datasets (may take more time):
+```bash
+benchopt run --env ./benchmark_lasso
+```
+
+---
+
+## Implementing a new solver
+
+We will try to implement a new solver for the Lasso benchmark. We want to add the solver implemented in the R package `biglasso` to this benchmark.
+
+**Exercise**: implement a `BenchOpt` solver for the Lasso solver implemented in the `biglasso` package.
+
+**Hints regrding `Benchopt`**:
+
+- The characteristics of a `BenchOpt` compatible solver are described [here](https://benchopt.github.io/how.html#solvers).
+
+- You can take example from the PGD algorithm solver implemented in the file [`benchmark_lasso/solvers/r_pgd.R`](./benchmark_lasso/solvers/r_pgd.R) and interfaced in the file [`benchmark_lasso/solvers/r_pgd.py`](./benchmark_lasso/solvers/r_pgd.py), or the `glmnet` solver from the R package `glmnet` implemented ìn the file [`benchmark_lasso/solvers/glmnet.py`](./benchmark_lasso/solvers/glmnet.py).
+
+- You can use `benchmark run --env -s <solver1> -s <solver2> ./benchmark_lasso` to run the benchmark on the specific solvers `<solver1>` and `<solver2>`.
+
+- You can use `benchmark run --env -d <dataset> ./benchmark_lasso` to run the benchmark on the specific dataset `<dataset>`, e.g. `benchmark run --env -d Simulated ./benchmark_lasso`.
+
+**Hints regrding `biglasso`**:
+
+- The package `biglasso` is available with conda install under the name `r-biglasso`.
+
+- The official vignette of the package `biglasso` is available [here](https://cran.r-project.org/web/packages/biglasso/vignettes/biglasso.html).
+
+- You must be cautious with parameter name including dots, e.g. `max.iter` from R functions in Python.
+
+**Solution**:
+
+- See the file [`biglasso.R`](./biglasso.R) and [`biglasso.py`](./biglasso.py)
+- Copy them to the directory [`benchmark_lasso/solvers`](./benchmark_lasso/solvers)
+- Run the following command for a comparison with `glmnet` solver:
+```bash
+benchopt run -s glmnet -s biglasso -d Simulated --env --recreate ./benchmark_lasso
+```
+
+
+---
+
+# Implementing a new benchmark
+
+You can create your own complete benchmark. The complete procedure is detailed [here](https://benchopt.github.io/how.html). It is recommended to copy an existing benchmark, e.g. the simple `benchmark_ols` and modify it at your convenience.
