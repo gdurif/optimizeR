@@ -107,13 +107,13 @@ Available for each interface (R^[R documentation at http://spams-devel.gforge.in
 \begin{columns}
 \begin{column}{0.5\textwidth}
 \begin{center}
-\large
+\LARGE
 \textit{old school} but \albf{complete}
 \end{center}
 \end{column}
 \begin{column}{0.5\textwidth}
 \begin{center}
-\includegraphics[width=0.5\textwidth]{images/online_doc}
+\includegraphics[width=0.7\textwidth]{images/online_doc}
 \end{center}
 \end{column}
 \end{columns}
@@ -157,9 +157,12 @@ Available for each interface (R^[R documentation at http://spams-devel.gforge.in
 
 ## Minimization and maximization
 
+\begin{center}
+\LARGE
 \[
-\LARGE \underset{\mb x\in\RR^p}{\argmax}\ F(\mb x) = \underset{\mb x\in\RR^p}{\argmin}\ - F(\mb x)
+\underset{\mb x\in\RR^p}{\argmax}\ F(\mb x) = \underset{\mb x\in\RR^p}{\argmin}\ - F(\mb x)
 \]
+\end{center}
 
 
 ## Illustration: max and argmax
@@ -220,7 +223,7 @@ Many statistical or learning problem are defined thanks to an optimization probl
 
 \albf{Optimization problem}
 \[
-\Large \underset{\mb w\in\RR^p}{\argmin} \left( \sum_{i=1}^n f(\mb x_i, \mb w) \right) + \lambda\,P(\mb w)
+\underset{\mb w\in\RR^p}{\argmin} \left( \sum_{i=1}^n f(\mb x_i, \mb w) \right) + \lambda\,P(\mb w)
 \]
 
 - $f : \RR^p \times \RR^p \to \RR$ is the **loss** function \medskip
@@ -235,7 +238,7 @@ Many statistical or learning problem are defined thanks to an optimization probl
 
 \albf{Optimization problem}
 \[
-\Large \underset{\mb w\in\RR^p}{\argmin} \sum_{i=1}^n f(\mb x_i, y_i, \mb w)
+\underset{\mb w\in\RR^p}{\argmin} \sum_{i=1}^n f(\mb x_i, y_i, \mb w)
 \]
 
 - $f : \RR^p \times \RR \times \RR^p \to \RR$ is the **loss** function \medskip
@@ -322,9 +325,8 @@ sparse principal component analysis (seen as a sparse matrix factorization probl
 
 \albf{Optimization problem}
 \[
-\Large
 \underset{\mb D\in\RR^{p \times K}}{\argmin}\ \frac{1}{n} \sum_{i=1}^n \left( \underset{\mbg\alpha_i\in\RR^K}{\argmin}\ \frac{1}{2} \Vert \mb x_i - \mb D\,\mbg\alpha_i\Vert_2^{\,2} + \lambda\,P(\alpha_i)\right)
-\]
+\]\medskip
 
 Various **penalty** functions $P$ and **sub-problems** (optimization on $\mb D$ or $\mbg\alpha_i$)
 
@@ -338,9 +340,8 @@ Various problems and algorithms including:
 
 **Example of optimization problem:**
 \[
-\Large
 \underset{\mbg\alpha\in\RR^K}{\argmin}\ \frac{1}{2} \Vert \mb x - \mb D\,\mbg\alpha\Vert_2^{\,2} + \lambda\,P(\alpha)
-\]
+\]\medskip
 
 with various **penalty** functions $P$
 
