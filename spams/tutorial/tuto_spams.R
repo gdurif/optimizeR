@@ -1,8 +1,3 @@
-## Dictionary learning
-
-
-
-#------------------------------------------------------------------------------#
 ## Matrix factorization
 
 # image
@@ -60,11 +55,18 @@ res <- Reduce("rbind", lapply(
         # output
         out = data.frame(
             K = K,
-            init_memory_footprint = prod(dim(img)),
-            reconstruct_memory_footprint = prod(dim(U)) + prod(dim(V)),
-            ratio = (prod(dim(U)) + prod(dim(V)))/prod(dim(img))
+            init_mem_fp = prod(dim(img)),
+            rec_mem_fp = prod(dim(U)) + prod(dim(V)),
+            ratio = (prod(dim(U)) + prod(dim(V)))/prod(dim(img)),
+            rec_mem_fp_sparse = sum(U>0) + sum(V>0),
+            ratio_sparse = (sum(U>0) + sum(V>0))/prod(dim(img))
         )
     }
 ))
 
+# init_mem_fp = image initial memory footprint
+# rec_mem_fp = reconstructed image memory footprint
+# ratio = rec_mem_fp/init_mem_fp
+# rec_mem_fp_sparse = reconstructed image memory footprint when accounting for factor sparsity
+# ratio_sparse = rec_mem_fp_sparse/init_mem_fp
 res
