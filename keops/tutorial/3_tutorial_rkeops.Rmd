@@ -1,5 +1,5 @@
 ---
-title: "SPAMS tutorial"
+title: "KeOps tutorial"
 author: "Ghislain DURIF"
 date: "January 22nd, 2021"
 institute: IMAG -- CNRS
@@ -15,9 +15,19 @@ knitr::opts_chunk$set(message = FALSE)
 
 See the [dedicated file](../requirements.md).
 
+# Introduction
+
+You can read the attached RKeOps vignettes: [`1_introduction_to_rkeops.Rmd`](./1_introduction_to_rkeops.Rmd) and especially [`2_using_rkeops.Rmd`](./2_using_rkeops.Rmd).
+
+# KeOps formula
+
+See this [webpage](https://www.kernel-operations.io/keops/api/math-operations.html) to get information about all math and matrix operators available to write KeOps formulae.
+
 # Examples and tutorials
 
-See the dedicated webpage for [tutorials](https://www.kernel-operations.io/keops/_auto_tutorials/index.html) and - [examples](https://www.kernel-operations.io/keops/_auto_examples/index.html) on the official websites (in Python but can be extended to R). It includes examples of $K$-means or $K$-nearest neighbors algorithm implementation with KeOps.
+See the dedicated webpages for [tutorials](https://www.kernel-operations.io/keops/_auto_tutorials/index.html) and [examples](https://www.kernel-operations.io/keops/_auto_examples/index.html) on the official website (all ritten in Python but can be extended to R). It includes examples of $K$-means or $K$-nearest neighbors algorithms implementation with KeOps.
+
+---
 
 # Comparing R and RKeOps
 
@@ -37,4 +47,23 @@ with
 * $j$-indexed variables $\mathbf Y = [\mathbf y_j]_{j=1,...,N} \in\mathbb R^{N\times 3}$ and $\mathbf B = [\mathbf b_j]_{j=1,...,N} \in\mathbb R^{N\times 6}$
 
 **Exercise**: Try to implement the previous operator in native R and with RKeOps. Compare computation performances.
+
+**Hint**: you may use the `Exp` and `SqDist` math operators and the `Sum_Reduction` reduction to write a KeOps formula corresponding to the problem that we want to implement.
+
 **Solution**: see the file [`./benchmarks/Gaussian.R`](./benchmarks/Gaussian.R).
+
+---
+
+## K-Nearest Neihbor (K-NN)
+
+We will now try to compare the implementation of the K-Nearest Neighbors (K-NN) algorithm in native R and with RKeOps (see [here](https://en.wikipedia.org/wiki/K-nearest_neighbors_algorithm) for more details about this algorithm).
+
+Here is the context, we have a collection (sample) of $n$ observations $(\mb x_j, y_j)_{j=1,\hdots,n}$ with data $\mb x_j\in\mathbb{R}^p$ and corresponding classes $y_j\in\{0,1\}$. The data are partitioned into two classes. We have a new set of observations $(\mb z_i)_{i=1,\hdots,n_{test}}$, $\mb z_i\in\mathbb{R}^p$, with unknown labels.
+
+With the K-NN algorithm, we will predict the label `0` or `1` associated to each new observation $\mb z_i$, by assigning $\mb z_i$ to the majority class among the $K$ nearest neighbors of $\mb z_i$ in the sample $(\mb x_j)_{j=1,\hdots,n}$. The closeness between $\mb z_i$ and $\mb x_j$ can be measured thanks to different metrics, e.g. the standard $\ell_2$ (Euclidean) distance.
+
+**Exercise**: Try to implement a simple K-NN prediction algorithm in native R and with RKeOps. Compare computation performances.
+
+**Hint**: you may use the `SqDist` math operator and the `ArgKMin_Reduction` reduction to write a KeOps formula corresponding to the problem that we want to implement.
+
+**Solution**: see the file [`./benchmarks/kNN.R`](./benchmarks/kNN.R).

@@ -54,40 +54,42 @@ GaussConvExample = function(M, N, D) {
     start = Sys.time()
     out1 = op_keops(list(x, y, b, lambda))
     end = Sys.time()
-    time1 = end - start
+    time1 = as.numeric(end - start)
 
     op_keops = op_keops_double
     start = Sys.time()
     out2 = op_keops(list(x, y, b, lambda))
     end = Sys.time()
-    time2 = end - start
+    time2 = as.numeric(end - start)
     
     # compare with standard R implementation via matrices
-    out3 = NA
+    out3 = NULL
     time3 = NA
     if(M<15000) {
         start = Sys.time()
 	    out3 = op_nokeops(list(x, y, b, lambda))
         end = Sys.time()
-        time3 = end - start
+        time3 = as.numeric(end - start)
     }
     
     print(paste("mean errors between rkeops double and float version: ",
                 mean(abs(out1-out2)), sep=""))
     
-    print(paste("mean errors between rkeops double and R version: ",
-                mean(abs(out2-out3)), sep=""))
+    if(!is.null(out3)) {
+        print(paste("mean errors between rkeops double and R version: ",
+                    mean(abs(out2-out3)), sep=""))
+    }
     
     out = data.frame(
         method = c("RKeOps float", "RKeOps double", "R"),
-        time = as.numeric(c(time1, time2, time3)),
+        time = c(time1, time2, time3),
         dim = N,
         stringsAsFactors = FALSE
     )
     return(out)
 }
 
-dim_value = c(100,200,500,1000,2000,5000,10000) #,20000,50000,100000,200000,500000,1000000)
+dim_value = c(100,200,500,1000,2000,5000,10000,20000) #,50000,100000,200000,500000,1000000)
 n_rep = 5
 
 param_grid = expand.grid(dim = dim_value, rep = 1:n_rep, KEEP.OUT.ATTRS = FALSE)
@@ -105,6 +107,10 @@ experiment = Reduce(
 experiment_summary <- experiment %>% 
     group_by(method, dim) %>%
     dplyr::summarize(mean_time = mean(time, na.rm=TRUE))
+
+ggplot(experiment, aes(x=dim, y=time, group=method, col=method)) +
+    geom_smooth() +
+    theme_bw()
 
 ggplot(experiment_summary, aes(x=dim, y=mean_time, group=method, col=method)) +
     geom_point() +geom_line() +
