@@ -129,7 +129,7 @@ Available for each interface (R^[R documentation at http://spams-devel.gforge.in
 
 # Short introduction about optimization
 
-## Optimization problem
+## Optimization problem (intuitively)
 
 - Given a function $F: \RR^p \to \RR$ called the **objective** \bigskip
 
@@ -141,7 +141,7 @@ Available for each interface (R^[R documentation at http://spams-devel.gforge.in
 
 - **Different algorithms** depending on the **complexity** of the problem
 
-## Optimum and optimal argument
+## Optimum and optimal argument (intuitively)
 
 - $\mb x^*\in\RR^p$ is an **argmin** and $F(\mb x^*) \in\RR$ a **min** if $F(\mb x^*) \leq F(\mb x)$ for any $\mb x\in\RR^p$
 \[
@@ -207,7 +207,7 @@ ggplot(data.frame(x = c(-10, 10)), aes(x)) +
 
 ## Optimization problem in statistics and machine learning
 
-Many statistical or learning problem are defined thanks to an optimization problem \medskip
+Many statistical or learning problems are defined thanks to an optimization problem \medskip
 
 - Regression \medskip
 
@@ -299,7 +299,7 @@ The properties (regularity, smoothness, differentiability, etc.) of the objectiv
 
 # SPAMS toolboxes
 
-## Explainations, illustration and code examples
+## Explainations, illustrations and code examples
 
 \begin{center}
 \Large
@@ -335,7 +335,7 @@ Various **penalty** functions $P$ and **sub-problems** (optimization on $\mb D$ 
 Various problems and algorithms including:
 
 - Orthogonal Matching Pursuit (or Forward Selection) \medskip
-- LARS, OMP, coordinate descent algorithms \medskip
+- LARS, coordinate descent algorithms \medskip
 - and more \medskip
 
 **Example of optimization problem:**

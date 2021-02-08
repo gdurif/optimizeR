@@ -70,7 +70,7 @@ install.packages("jpeg")
 
 ## Data
 
-We are going to use a matrix factorization algorithm algorithm to compress an image (from wikimedia.org).
+We are going to use a matrix factorization algorithm algorithm to compress an image (from wikimedia.org), see [`data/image.jpg`](./data/image.jpg).
 
 ```{r img, message=FALSE, warning=FALSE, echo=FALSE, fig.align='center', out.width = '80%'}
 knitr::include_graphics("data/image.jpg")
