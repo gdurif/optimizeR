@@ -62,6 +62,17 @@ cd benchopt/tutorial/benchOpt
 
 ---
 
+## Specific requirements for this tutorial
+
+In addition to the instructions detailed above to use `benchopt`, you will need the R package `biglasso` to follow the tutorial.
+
+It can be installed in R with the following command:
+```R
+install.packages("biglasso")
+```
+
+---
+
 ## Appendix
 
 ### Using Python virtual environment
