@@ -4,6 +4,7 @@ Please see this [file](../setup_R_environment.md) if you prefer to **avoid messi
 
 > **Note concerning the OS**: all codes and commands presented here are specific to a Linux environment (and have only been tested on such system). Most of them should work in a MacOS environment.
 
+
 ## Requirements
 
 * R (tested with R >= 3.5)

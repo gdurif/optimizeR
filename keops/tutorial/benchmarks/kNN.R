@@ -6,6 +6,8 @@
 # We define a dataset of N points in R^D, separated in two classes,
 # and a dataset of query points, then apply a simple K-NN algorithm.
 
+library(dplyr)
+library(ggplot2)
 library(class)
 library(rkeops)
 
