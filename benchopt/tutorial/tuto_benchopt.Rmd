@@ -171,7 +171,7 @@ We will try to implement a new solver for the Lasso benchmark. We want to add th
 
 **Exercise**: implement a `BenchOpt` solver for the Lasso solver implemented in the `biglasso` package.
 
-**Hints regrding `Benchopt`**:
+**Hints regarding `Benchopt`**:
 
 - The characteristics of a `BenchOpt` compatible solver are described [here](https://benchopt.github.io/how.html#solvers).
 
