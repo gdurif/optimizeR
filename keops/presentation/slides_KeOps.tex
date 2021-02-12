@@ -1,6 +1,6 @@
 %%%%%%%%%%%%%%%%% KeOps presentation 22/01/2021 %%%%%%%%%%%%%%%%%%%%
 
-\documentclass[14pt]{beamer}
+\documentclass[12pt,aspectratio=1610]{beamer}
 
 %% theme
 \usetheme{metropolis}
@@ -74,19 +74,19 @@ RKeOps = \texttt{R} package interfacing KeOps library
 \begin{center}
 Compute \mybf{generic reductions} of very large arrays\bigskip\bigskip
 
-{\small
 \textit{e.g.} row-wise or column-wise matrix sum
 \[
 \sum_{i=1}^M a_{ij} \ \ \ \ \text{or}\ \ \ \ \sum_{j=1}^N a_{ij}
 \]
 
 \bigskip
-(for some large matrix $\mb A = [a_{ij}] \in \RR^{M\times N}$)}
+for some large matrix $\mb A = [a_{ij}] \in \RR^{M\times N}$
+
+$M, N \sim 10^4, 10^5, 10^6$ 
 \end{center}
 }
 
 \only<2>{
-\small
 \[
 \begin{array}{c}
 \left[\begin{array}{cc>{\columncolor{mLightGreen}}ccc}
@@ -105,7 +105,6 @@ Compute \mybf{generic reductions} of very large arrays\bigskip\bigskip
 }
 
 \only<3>{
-\small
 \[
 \left[\begin{array}{ccccc}
     \ \ \xx \ \  & \ \ \xx \ \  & \ \ \xx \ \ & \ \ \xx \ \ & \ \ \xx \ \ \\
@@ -125,6 +124,7 @@ Compute \mybf{generic reductions} of very large arrays\bigskip\bigskip
 }
 
 \only<4>{
+\begin{center}
 Compute \mybf{kernel reduction}\smallskip
 
 \[
@@ -134,11 +134,10 @@ Compute \mybf{kernel reduction}\smallskip
 \medskip
 and the associated \mybf{gradients}\medskip
 
-{\small (for a kernel function $K$ and some data vectors $\mb x_i, \mb y_j\in\RR^D$)}\medskip
+{\small (for a kernel function $K$ and some data vectors $\mb x_i, \mb y_j\in\RR^D$)}\bigskip
 
-\begin{itemize}
-\item[$\rw$] \textbf{Intuitively:} $\big[K(\mb x_i, \mb y_j)\big]\in \RR^{M\times N}$ = matrix whose elements are given by a \mybf{formula}
-\end{itemize}
+\textbf{Intuitively:} $\big[K(\mb x_i, \mb y_j)\big]\in \RR^{M\times N}$ = matrix whose elements are given by a \mybf{formula}
+\end{center}
 }
 
 \only<5>{
@@ -152,7 +151,7 @@ and the associated \mybf{gradients}\medskip
 \item $M$ and $N$ $\approx 10^4, 10^5, 10^6$
 \end{itemize}
 
-\item[$\rw$] \mybf{fast computation on GPU without memory overflow}
+\item[$\rw$] \mybf{fast computation} on CPU or \mybf{on GPU without memory overflow}
 \end{itemize}
 }
 
@@ -181,7 +180,8 @@ GPU user-friendly computing?\bigskip\bigskip
 
 Only a few solution for specific tasks in \texttt{R}\bigskip\bigskip
 
-See \url{https://CRAN.R-project.org/view=HighPerformanceComputing} (section GPUs)
+{\small
+See \url{https://CRAN.R-project.org/view=HighPerformanceComputing} (section GPUs)}
 \end{center}
 }
 
@@ -202,11 +202,13 @@ GPU computing can be used for \mybf{general purpose computations} and not only n
 }
 
 \only<4>{
+\begin{center}
 \mybf{Needs:} provide an effortless tool for GPU computing\\
 
-\bigskip
+\bigskip\bigskip\bigskip
 
-\textbf{Application:} statistics, machine learning and more\ldots
+\textbf{Applications:} statistics, machine learning and more\ldots
+\end{center}
 }
 \end{frame}
 
@@ -247,8 +249,6 @@ between $\mb x_i$ and $\mb y_j$\medskip
 \end{center}
 }
 
-\btVFill
-
 \end{frame}
 
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%5
@@ -280,12 +280,11 @@ K(\mb x_i, \mb y_j) = \exp\left(-\frac{1}{2\sigma^2}\Vertt \mb x_i - \mb y_j \Ve
 
 \bigskip\bigskip
 
-{\small
 \textbf{Example:} \hfill \only<1>{$\sum_{\myexample{i=1}}^{\myexample{M}}\, K_1(\myexample{\mb x_i}, \mb y_j)\, K_2(\myexample{\mb u_i}, \mb v_j)\,\langle \myexample{\mbg\alpha_i}\,;\,\mbg\beta_j\rangle$}\only<2>{$\sum_{\alert{j=1}}^{\alert{N}}\, K_1(\mb x_i, \alert{\mb y_j})\, K_2(\mb u_i, \alert{\mb v_j})\,\langle \mbg\alpha_i\,;\,\alert{\mbg\beta_j}\rangle$} \hfill ~
 
 \bigskip
 
-for some kernel $K_1$ and $K_2$, and some $D$-vectors $(\mb x_i)_i, (\mb u_i)_i\\(\mbg\alpha_i)_i \in \RR^{\alert{M}\times D}$ and $(\mb y_j)_j, (\mb v_j)_j, (\mbg\beta_j)_j \in \RR^{\myexample{N}\times D}$}\bigskip
+for some kernel $K_1$ and $K_2$, and some $D$-vectors $(\mb x_i)_i, (\mb u_i)_i, (\mbg\alpha_i)_i \in \RR^{\alert{M}\times D}$ and $(\mb y_j)_j, (\mb v_j)_j, (\mbg\beta_j)_j \in \RR^{\myexample{N}\times D}$
 
 \end{frame}
 
@@ -342,14 +341,29 @@ $\rw$ \mybf{GPU are good for matrix computations}
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%
 \begin{frame}{GPUs}
 
-\textbf{PLUS}: thousands of computing units\medskip
+\begin{onlyenv}<1>
+\begin{figure}
+\centering
+\includegraphics[width=0.8\textwidth]{images/cpu_gpu}
+\caption{source: \url{commons.wikimedia.org}}
+% https://commons.wikimedia.org/wiki/File:Cpu-gpu.svg
+\end{figure}
+\end{onlyenv}
+
+\begin{onlyenv}<2>
+
+\textbf{PLUS}: thousands of computing units
 
 $\rw$ fast with heavily parallelized computations\bigskip\bigskip
 
-\textbf{MINUS}: relatively small memory\\
-{\small(compared to the number of computing units)}\medskip
+\textbf{MINUS}: relatively small memory {\small (compared to the number of computing units)}
 
 $\rw$ issue to process large data\bigskip
+
+\end{onlyenv}
+
+
+
 
 \end{frame}
 
@@ -960,7 +974,7 @@ Runtime comparison for Gaussian matrix-vector product on GPU with different data
 \begin{onlyenv}<2>
 \begin{figure}
 \centering
-\includegraphics[width=\linewidth]{./images/benchmark.png}
+\includegraphics[width=0.85\linewidth]{./images/benchmark.png}
 \end{figure}
 \end{onlyenv}
 \end{frame}
@@ -1005,7 +1019,7 @@ Different tasks
 \begin{onlyenv}<4>
 \begin{figure}
 \centering
-\includegraphics[width=\linewidth]{./images/benchmark2.jpg}
+\includegraphics[width=0.9\linewidth]{./images/benchmark2.jpg}
 \end{figure}
 \end{onlyenv}
 \end{frame}
@@ -1018,7 +1032,7 @@ Different tasks
 %%%%%%%%%%%%%%%%%%%%%%%%
 \begin{frame}{Coding generic formulas with KeOps}
 
-\btVFill
+\vspace{0.4cm}
 
 \hypertarget{implementation}{}
 
@@ -1028,7 +1042,6 @@ Different tasks
 \]
 
 \begin{center}
-\small
 $\rw$ what I want to compute
 \end{center}\bigskip
 
@@ -1038,7 +1051,6 @@ A formula $F$ in KeOps is first \mybf{encoded as a string} using combinations of
 \end{center}
 
 \begin{center}
-\small
 $\rw$ what I have to write
 \end{center}
 
@@ -1068,30 +1080,17 @@ A formula is an instantiation of a variadic recursively defined templated class\
 
 KeOps proposes a wide range of elementary operations\bigskip
 
-\only<1>{
 \begin{itemize}
 \setitsep{1em}
 \item \mybf{Simple vector operations:} {\small scalar product, norm, distance, normalization, vector/vector element-wise operation (\texttt{+},\texttt{-},\texttt{*},\texttt{/}), etc.}
 \item \mybf{Elementary $\RR\to\RR$ functions:} {\small exp, log, inverse, abs, pow, sqrt, sin, cos, etc.}
-\end{itemize}
-}
-
-\only<2>{
-\begin{itemize}
-\setitsep{2em}
 \item \mybf{Simple matrix operations:} {\small matrix product, etc.}
 \item \mybf{Matrix reduction:} {\small sum, min, max, argmin, argmax, etc.}
 \end{itemize}
-}
-
-\only<3>{
-\small
 
 \bigskip\bigskip\bigskip
 $\rw$ a formula = \mybf{a combination of these operations}
-}
 
-\btVFill
 \end{frame}
 
 
